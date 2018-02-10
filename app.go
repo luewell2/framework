@@ -1,7 +1,7 @@
 package framework
 
-import . "github.com/luewell/framework/Illuminate/Http"
+import "github.com/luewell/framework/Illuminate/Http"
 
-func App() {
-	Server{}.Init()
+func Run() {
+	Http.Server{}.Init()
 }
