@@ -15,7 +15,9 @@ func Load() {
 }
 
 func loadFile() {
-	readFile()
+	env := readFile()
+
+	fmt.Println(env)
 }
 
 func readFile() (envMap map[string]string) {
@@ -42,7 +44,9 @@ func parseFile(file io.Reader) (envMap map[string]string) {
 
 	for _, line := range lines {
 		if !isIgnoreLine(line) {
-			// fmt.Println(line)
+			key, value := parseLine(line)
+
+			envMap[key] = value
 		}
 	}
 
@@ -50,9 +54,16 @@ func parseFile(file io.Reader) (envMap map[string]string) {
 }
 
 func isIgnoreLine(line string) bool {
-	trim := strings.Trim(line, " \n\t")
+	line = strings.Trim(line, " \n\t")
 
-	fmt.Println(trim)
+	return (len(line) == 0) || strings.HasPrefix(line, "#")
+}
 
-	return true
+func parseLine(line string) (key string, value string) {
+	splitLine := strings.SplitN(line, "=", 2)
+
+	key = strings.Trim(splitLine[0], " ")
+	value = strings.Trim(strings.SplitN(strings.Trim(splitLine[1], " "), "#", 2)[0], " ")
+
+	return
 }
