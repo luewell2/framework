@@ -61,7 +61,7 @@ func parseLine(line string) (key string, value string) {
 	splitLine := strings.SplitN(line, "=", 2)
 
 	key = strings.Trim(splitLine[0], " ")
-	value = strings.Trim(strings.SplitN(strings.Trim(splitLine[1], " "), "#", 2)[0], " ")
+	value = strings.Trim(strings.SplitN(strings.Trim(splitLine[1], " "), "#", 2)[0], " \n\t")
 
 	return
 }
