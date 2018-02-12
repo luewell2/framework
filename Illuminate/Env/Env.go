@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func Load() {
@@ -39,7 +40,19 @@ func parseFile(file io.Reader) (envMap map[string]string) {
 		lines = append(lines, scanner.Text())
 	}
 
-	fmt.Println(lines)
+	for _, line := range lines {
+		if !isIgnoreLine(line) {
+			// fmt.Println(line)
+		}
+	}
 
 	return
+}
+
+func isIgnoreLine(line string) bool {
+	trim := strings.Trim(line, " \n\t")
+
+	fmt.Println(trim)
+
+	return true
 }
