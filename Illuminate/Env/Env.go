@@ -17,7 +17,7 @@ func Load() {
 func loadFile() {
 	env := readFile()
 
-	fmt.Println(env)
+	setEnv(env)
 }
 
 func readFile() (envMap map[string]string) {
@@ -35,14 +35,12 @@ func readFile() (envMap map[string]string) {
 
 func parseFile(file io.Reader) (envMap map[string]string) {
 	envMap = make(map[string]string)
-	var lines []string
 
 	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
 
-	for _, line := range lines {
+	for scanner.Scan() {
+		line := scanner.Text()
+
 		if !isIgnoreLine(line) {
 			key, value := parseLine(line)
 
@@ -66,4 +64,10 @@ func parseLine(line string) (key string, value string) {
 	value = strings.Trim(strings.SplitN(strings.Trim(splitLine[1], " "), "#", 2)[0], " ")
 
 	return
+}
+
+func setEnv(env map[string]string) {
+	for key, value := range env {
+		os.Setenv(key, value)
+	}
 }
