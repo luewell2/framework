@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"fmt"
 
-	"github.com/luewell/framework/Illuminate/Config"
+	"github.com/luewell/framework/Illuminate/Env"
 )
 
 func App() {
@@ -13,5 +13,5 @@ func App() {
 		fmt.Println("[bootstrap@App]: Ready!")
 	}()
 
-	Config.Env{}.Load()
+	Env.Load()
 }

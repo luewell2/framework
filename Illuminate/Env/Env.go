@@ -1,4 +1,4 @@
-package Config
+package Env
 
 import (
 	"bufio"
@@ -7,19 +7,17 @@ import (
 	"os"
 )
 
-type Env struct{}
-
-func (env Env) Load() {
+func Load() {
 	fmt.Println("[Env@Load]: Initializing...")
 
-	env.loadFile()
+	loadFile()
 }
 
-func (env Env) loadFile() {
-	env.readFile()
+func loadFile() {
+	readFile()
 }
 
-func (env Env) readFile() (envMap map[string]string) {
+func readFile() (envMap map[string]string) {
 	file, err := os.Open(".env")
 
 	defer file.Close()
@@ -29,10 +27,10 @@ func (env Env) readFile() (envMap map[string]string) {
 		return
 	}
 
-	return env.parseFile(file)
+	return parseFile(file)
 }
 
-func (env Env) parseFile(file io.Reader) (envMap map[string]string) {
+func parseFile(file io.Reader) (envMap map[string]string) {
 	envMap = make(map[string]string)
 	var lines []string
 
