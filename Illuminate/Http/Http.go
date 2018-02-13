@@ -13,7 +13,13 @@ func (this *Router) ServeHTTP(response netHttp.ResponseWriter, request *netHttp.
 	http := NewContext(response, request)
 
 	if http.FullUrl() != "/favicon.ico" {
-		http.ThrowHttpCode(500)
+		for _, route := range this.Routes {
+			if route.Match(http.FullUrl()) {
+				route.Handler(http)
+
+				break
+			}
+		}
 	}
 }
 
