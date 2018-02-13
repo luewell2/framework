@@ -1,6 +1,8 @@
 package Http
 
 import (
+	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	netHttp "net/http"
 )
@@ -35,4 +37,22 @@ func (this *Response) ThrowHttpCode(code int) {
 	} else {
 		this.Throw(code, httpCodeMessage[code])
 	}
+}
+
+/* Methods Response */
+
+func (this *Response) ResponseString(content string) {
+	this.Write([]byte(content))
+}
+
+func (this *Response) ResponseJSON(content interface{}) {
+	jsonContent, _ := json.Marshal(content)
+
+	this.Write(jsonContent)
+}
+
+func (this *Response) ResponseXML(content interface{}) {
+	xmlContent, _ := xml.Marshal(content)
+
+	this.Write(xmlContent)
 }

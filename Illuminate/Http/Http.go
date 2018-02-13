@@ -56,6 +56,10 @@ func (this *Router) Get(pattern string, handler Handler) {
 	this.pushRoute(pattern, "GET", handler)
 }
 
+func (this *Router) Post(pattern string, handler Handler) {
+	this.pushRoute(pattern, "POST", handler)
+}
+
 /* Http.Context */
 type Context struct {
 	Request
