@@ -5,12 +5,16 @@ import (
 	netHttp "net/http"
 )
 
-type Router struct{}
+type Router struct {
+	Routes []Route
+}
 
 func (this *Router) ServeHTTP(response netHttp.ResponseWriter, request *netHttp.Request) {
 	http := NewContext(response, request)
 
-	fmt.Println(http.FullUrl(), http.Split())
+	if http.FullUrl() != "/favicon.ico" {
+		http.ThrowHttpCode(500)
+	}
 }
 
 func (this *Router) Listen(server string) {
@@ -23,6 +27,21 @@ func Init() *Router {
 	http := &Router{}
 
 	return http
+}
+
+func (this *Router) pushRoute(pattern string, method string, handler Handler) {
+	route := Route{
+		Method:  method,
+		Pattern: pattern,
+		Handler: handler,
+	}
+
+	this.Routes = append(this.Routes, route)
+}
+
+/* Methods */
+func (this *Router) Get(pattern string, handler Handler) {
+	this.pushRoute(pattern, "GET", handler)
 }
 
 /* Http.Context */
@@ -40,7 +59,7 @@ func NewContext(response netHttp.ResponseWriter, request *netHttp.Request) *Cont
 	http.Response.SetContentType("text/html")
 	http.Response.SetStatusCode("200")
 
-	http.Init()
+	// http.Init()
 
 	return http
 }
