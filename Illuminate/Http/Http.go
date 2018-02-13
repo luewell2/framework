@@ -10,15 +10,21 @@ type Router struct {
 }
 
 func (this *Router) ServeHTTP(response netHttp.ResponseWriter, request *netHttp.Request) {
+	routeFound := false
 	http := NewContext(response, request)
 
 	if http.FullUrl() != "/favicon.ico" {
 		for _, route := range this.Routes {
 			if route.Match(http.FullUrl()) {
 				route.Handler(http)
+				routeFound = true
 
 				break
 			}
+		}
+
+		if !routeFound {
+			http.ThrowHttpCode(404)
 		}
 	}
 }
@@ -65,9 +71,5 @@ func NewContext(response netHttp.ResponseWriter, request *netHttp.Request) *Cont
 	http.Response.SetContentType("text/html")
 	http.Response.SetStatusCode("200")
 
-	// http.Init()
-
 	return http
 }
-
-func (http *Context) Init() {}
