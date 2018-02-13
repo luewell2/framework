@@ -2,10 +2,8 @@ package bootstrap
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/luewell/framework/Illuminate/Env"
-	"github.com/luewell/framework/Illuminate/Http"
 )
 
 func App() {
@@ -16,5 +14,4 @@ func App() {
 	}()
 
 	Env.Load()
-	Http.Router{}.Listen(os.Getenv("APP_URL"))
 }
