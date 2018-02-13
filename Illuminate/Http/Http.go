@@ -16,10 +16,12 @@ func (this *Router) ServeHTTP(response netHttp.ResponseWriter, request *netHttp.
 	if http.FullUrl() != "/favicon.ico" {
 		for _, route := range this.Routes {
 			if route.Match(http.FullUrl()) {
-				route.Handler(http)
-				routeFound = true
+				if http.Request.Method == route.Method {
+					route.Handler(http)
+					routeFound = true
 
-				break
+					break
+				}
 			}
 		}
 

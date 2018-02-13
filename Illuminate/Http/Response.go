@@ -16,11 +16,11 @@ type Response struct {
 }
 
 func (this *Response) SetContentType(typ string) {
-	this.Header().Set(`Content-Type`, typ)
+	this.Header().Set("Content-Type", typ)
 }
 
 func (this *Response) SetStatusCode(code string) {
-	this.Header().Set(`Status Code`, code)
+	this.Header().Set("Status Code", code)
 }
 
 func (this *Response) Throw(code int, message string) {
@@ -48,11 +48,13 @@ func (this *Response) ResponseString(content string) {
 func (this *Response) ResponseJSON(content interface{}) {
 	jsonContent, _ := json.Marshal(content)
 
+	this.SetContentType("application/json")
 	this.Write(jsonContent)
 }
 
 func (this *Response) ResponseXML(content interface{}) {
 	xmlContent, _ := xml.Marshal(content)
 
+	this.SetContentType("application/xml")
 	this.Write(xmlContent)
 }
